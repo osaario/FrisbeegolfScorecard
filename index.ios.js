@@ -51,15 +51,9 @@ class fribagolf extends Component {
         this.setState({players: newPlayers});
     }
     rowClick(colClicked, rowClicked) {
-        const newData = this.state.data.map((row, rowIdx) => {
-            return row.map((value, colIdx) => {
-                if(colClicked == colIdx && rowClicked == rowIdx) {
-                    return value < 99 ? value + 1 : 0;
-                }
-                return value;
-            });
-        });
-        this.setState({data: newData});
+        const currentValue = this.state.data[rowClicked][colClicked];
+        this.state.data[rowClicked][colClicked] = currentValue < 99 ? currentValue + 1 : 0;
+        this.setState({data: this.state.data});
     }
     render() {
         const colSums = this.state.data.map((row) => {
@@ -69,7 +63,6 @@ class fribagolf extends Component {
                 return val == 0 ? rowPar : val;
             });
         }).reduce((agg, row) => {
-            console.log(agg);
             if(!agg) return row;
             else  {
                 return agg.map((val, idx) => {
@@ -120,7 +113,6 @@ class fribagolf extends Component {
                 <ScrollView
                     ref={(scrollView) => { _scrollView = scrollView; }}
                     automaticallyAdjustContentInsets={false}
-                    onScroll={() => { console.log('onScroll!'); }}
                     scrollEventThrottle={200}
                     style={{flex: 1, alignSelf: 'stretch'}}>
                     <View>
