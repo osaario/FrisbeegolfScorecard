@@ -30,7 +30,6 @@ class fribagolf extends Component {
         return {data, players};
     }
     clearData() {
-        console.log(this);
         this.setState(this.initialState());
     }
     clearRow(colClicked, rowClicked) {
