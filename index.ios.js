@@ -34,14 +34,7 @@ class fribagolf extends Component {
         this.setState(this.initialState());
     }
     clearRow(colClicked, rowClicked) {
-        const newData = this.state.data.map((row, rowIdx) => {
-            return row.map((value, colIdx) => {
-                if(colClicked == colIdx && rowClicked == rowIdx) {
-                    return 0;
-                }
-                return value;
-            });
-        });
+        const newData = this.state.data[rowClicked][colClicked] = 0;
         this.setState({data: newData});
     }
     setPlayerName(newName, editIdx) {
