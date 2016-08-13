@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  TextInput,
   Text,
   View
 } from 'react-native';
@@ -42,6 +43,12 @@ class fribagolf extends Component {
             });
         });
         this.setState({data: newData});
+    }
+    setPlayerName(newName, editIdx) {
+        const newPlayers = this.state.players.map((player, idx) => {
+            return idx == editIdx ? newName : player;
+        });
+        this.setState({players: newPlayers});
     }
     rowClick(colClicked, rowClicked) {
         const newData = this.state.data.map((row, rowIdx) => {
@@ -82,8 +89,12 @@ class fribagolf extends Component {
                     {
                         this.state.players.map((player, idx) => {
                             return (
-                                <View key={player} style={styles.headerRowWhite}>
-                                    <Text>{player}</Text>
+                                <View key={'player' + idx.toString()} style={styles.headerRowWhite}>
+                                    <TextInput
+                                        style={{height: 40, marginLeft: 8, fontSize: 12, alignItems: 'center'}}
+                                        value={player}
+                                        onChangeText={(text) => this.setPlayerName(text, idx)}
+                                        />
                                 </View>
                             );
                         })
