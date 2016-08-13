@@ -17,18 +17,20 @@ import {
 class fribagolf extends Component {
     constructor(props) {
         super(props);
+        this.state =  this.initialState();
+    }
+    initialState() {
         let holes = [];
         for(let i = 0; i < 18; i++) {
             holes.push(i);
         }
-
-
         const data = holes.map((p) => [3, 0,0,0,0]);
         const players = ['Tauski', 'Fredi', 'Reetu', 'Matti']
-        this.state = {
-            data, players
-        };
-
+        return {data, players};
+    }
+    clearData() {
+        console.log(this);
+        this.setState(this.initialState());
     }
     clearRow(colClicked, rowClicked) {
         const newData = this.state.data.map((row, rowIdx) => {
@@ -71,16 +73,16 @@ class fribagolf extends Component {
         return (
             <View style={styles.container}>
                 <View style={{flexDirection: 'row', justifyContent: 'center', alignSelf: 'stretch'}}>
-                    <View style={styles.headerRow}>
+                    <TouchableOpacity style={styles.headerRowWhite} onLongPress={this.clearData.bind(this)}>
                         <Text>HOLE</Text>
-                    </View>
+                    </TouchableOpacity>
                     <View style={styles.headerRow}>
                         <Text>PAR</Text>
                     </View>
                     {
                         this.state.players.map((player, idx) => {
                             return (
-                                <View style={styles.headerRow}>
+                                <View key={player} style={styles.headerRowWhite}>
                                     <Text>{player}</Text>
                                 </View>
                             );
@@ -120,8 +122,12 @@ class fribagolf extends Component {
                                 let style;
                                 if(score == rowPar) {
                                     style = {color: 'green'};
+                                } else if(score < rowPar - 1) {
+                                    style = {color: 'purple'};
                                 } else if(score < rowPar) {
                                     style = {color: 'blue'};
+                                } else if(score < rowPar + 2) {
+                                    style = {color: 'orange'};
                                 } else {
                                     style = {color: 'red'};
                                 }
@@ -129,7 +135,7 @@ class fribagolf extends Component {
                             }
                             return (
                                 <View key={row} style={{flex: 1, flexDirection: 'row'}}>
-                                    <View style={styles.numberRow}>
+                                    <View style={styles.firstRow}>
                                         <Text style={textStyle}>{row + 1}</Text>
                                     </View>
                                     <TouchableOpacity style={styles.numberRow} onLongPress={() => this.clearRow(0, row)} onPress={() => this.rowClick(0, row)}>
@@ -158,7 +164,9 @@ class fribagolf extends Component {
 }
 
 const styles = StyleSheet.create({
+    headerRowWhite: {flex: 1,backgroundColor: '#FFF', height: 40, borderWidth: 1, alignItems: 'center', justifyContent: 'center', borderColor: '#eee', borderStyle: 'solid'},
     headerRow: {flex: 1,backgroundColor: '#FAFAFA', height: 40, borderWidth: 1, alignItems: 'center', justifyContent: 'center', borderColor: '#eee', borderStyle: 'solid'},
+    firstRow: {flex: 1,backgroundColor: '#FAFAFA', height: 60, borderWidth: 1, alignItems: 'center', justifyContent: 'center', borderColor: '#eee', borderStyle: 'solid'},
     numberRow: {flex: 1, height: 60, borderWidth: 1, alignItems: 'center', justifyContent: 'center', borderColor: '#eee', borderStyle: 'solid', backgroundColor: '#fff'},
   container: {
     flex: 1,
