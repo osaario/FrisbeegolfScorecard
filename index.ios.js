@@ -33,8 +33,8 @@ class fribagolf extends Component {
         this.setState(this.initialState());
     }
     clearRow(colClicked, rowClicked) {
-        const newData = this.state.data[rowClicked][colClicked] = 0;
-        this.setState({data: newData});
+        this.state.data[rowClicked][colClicked] = 0;
+        this.setState({data: this.state.data});
     }
     setPlayerName(newName, editIdx) {
         const newPlayers = this.state.players.map((player, idx) => {
